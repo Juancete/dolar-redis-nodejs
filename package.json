@@ -1,0 +1,21 @@
+{
+  "name": "cotizacionDolar",
+  "version": "1.0.0",
+  "description": "Udate dolar rate and set to Redis DB",
+  "keywords": [
+    "database",
+    "redis",
+    "transaction",
+    "pipelining",
+    "performance",
+    "queue",
+    "nodejs"
+  ],
+  "author": "Juan Contardo <juan.contardo@gmail.com>",
+  "license": "MIT",
+  "main": "./dolar.js",
+  "dependencies": {
+    "request": "^2.0",
+    "redis": "^2.0"
+  }
+}
