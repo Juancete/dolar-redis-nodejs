@@ -101,7 +101,6 @@ function LaNacion(){
 }
 LaNacion.prototype.parse = function(body,result){
 	this.json = JSON.parse(body.substring(20,body.length - 2));
-	console.log(this.json);
 	result.source = this.sourceName;
 	result.value = this.json.CasaCambioVentaValue.replace(",",".");
 }
