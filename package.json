@@ -1,5 +1,6 @@
 {
-  "name": "cotizacionDolar",
+  "name": "cotizacion_dolar",
+  "type": "module",
   "version": "1.0.0",
   "description": "Udate dolar rate and set to Redis DB",
   "keywords": [
@@ -15,7 +16,7 @@
   "license": "MIT",
   "main": "./dolar.js",
   "dependencies": {
-    "request": "^2.0",
-    "redis": "^2.0"
+    "axios": "^0.27.2",
+    "redis": "^4.2.0"
   }
 }
