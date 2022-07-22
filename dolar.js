@@ -31,35 +31,32 @@ Object.defineProperty(Date.prototype, "timestamp", {
 /*
  *	Dominio
  */
-function Updater() {
-  this.remoteRate = new Rate();
-}
 
-Updater.prototype.update = function () {
-  getBody(LaNacion, this.remoteRate);
+const updater = () => {
+  getBody(LaNacion, new Rate());
 };
 
-function Rate() {
-  this.date;
-  this.value = 0;
-  this.source = "";
+class Rate {
+	constructor(){
+		this.date;
+		this.value = 0;
+		this.source = "";
+	}
+	evaluate = (anotherValue) => {
+		if (anotherValue.length == 0) {
+		  console.log("First Persist");
+		  persist(this);
+		} else if (JSON.parse(anotherValue).value != this.value) {
+		  console.log("New Value to persist!");
+		  persist(this);
+		} else {
+		  console.log("Nothing to persist");
+		}
+		console.log("this", this);
+	  }
 }
 
-Rate.prototype.evaluate = function (anotherValue) {
-  if (anotherValue.length == 0) {
-    console.log("First Persist");
-    persist(this);
-  } else if (JSON.parse(anotherValue).value != this.value) {
-    console.log("New Value to persist!");
-    persist(this);
-  } else {
-    console.log("Nothing to persist");
-  }
-  console.log("this", this);
-};
-
-var updater = new Updater();
-updater.update();
+updater();
 
 /*
  *	Funciones de parseo URL
@@ -109,7 +106,6 @@ function LaNacion() {
   this.sourceName = "La Nacion";
 }
 LaNacion.prototype.parse = function (body, result) {
-	// console.log("body es " + body.substring(19, body.length - 2))
 	this.json = JSON.parse(body.substring(19, body.length - 2));
   	console.log("json es " + this.json)
   	result.source = this.sourceName;
