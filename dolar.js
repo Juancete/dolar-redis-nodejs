@@ -42,17 +42,17 @@ class Rate {
 		this.value = 0;
 		this.source = "";
 	}
-	evaluate = (anotherValue) => {
+	evaluate = async (anotherValue) => {
 		if (anotherValue.length == 0) {
 		  console.log("First Persist");
-		  persist(this);
+		  await persist(this);
 		} else if (JSON.parse(anotherValue).value != this.value) {
 		  console.log("New Value to persist!");
-		  persist(this);
+		  await persist(this);
 		} else {
 		  console.log("Nothing to persist");
 		}
-		console.log("this", this);
+		// console.log("this", this);
 	  }
 }
 
@@ -130,7 +130,7 @@ async function readLastValue(remoteRate) {
 	try {
 		const messages = await client.lRange("dolar",0,0);
 		console.log("Valor leido de Redis ", messages);
-		remoteRate.evaluate(messages);
+		await remoteRate.evaluate(messages);
 		process.exit(0)
 	}
 	catch (error) {
