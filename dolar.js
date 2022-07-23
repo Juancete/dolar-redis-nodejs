@@ -105,6 +105,9 @@ function getBody(parser, remoteRate) {
 
 async function persist(value) {
   try {
+	const largo = await client.lLen("dolar")
+	if (largo > 5)
+		await client.rPop("dolar")
     await client.lPush("dolar", JSON.stringify(value));
     console.log("Valor grabado ", value);
   } catch (error) {
