@@ -1,32 +1,12 @@
-import { createClient } from 'redis';
-import axios from 'axios';
+import { createClient } from 'redis'
+import { DateTime } from 'luxon'
+import axios from 'axios'
 
 const client = createClient();
 
 client.on('error', (err) => console.log('Redis Client Error', err));
 
 await client.connect();
-
-/*
- *	Manejo de fecha
- */
-Object.defineProperty(Date.prototype, "timestamp", {
-  value: function () {
-    function pad2(n) {
-      // always returns a string
-      return (n < 10 ? "0" : "") + n;
-    }
-
-    return (
-      this.getFullYear() +
-      pad2(this.getMonth() + 1) +
-      pad2(this.getDate()) +
-      pad2(this.getHours()) +
-      pad2(this.getMinutes()) +
-      pad2(this.getSeconds())
-    );
-  },
-});
 
 /*
  *	Dominio
@@ -65,7 +45,7 @@ function getBody(parser, remoteRate) {
   	var parser = new parser();
 	axios.get(parser.url)
 	.then( (body) => {
-		remoteRate.date = new Date().timestamp();
+		remoteRate.date = DateTime.utc().toISO();
 		parser.parse(body.data, remoteRate);
 		console.log("Valor leido de", remoteRate.source, remoteRate.value);
 		readLastValue(remoteRate);

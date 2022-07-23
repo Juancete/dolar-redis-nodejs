@@ -17,6 +17,7 @@
   "main": "./dolar.js",
   "dependencies": {
     "axios": "^0.27.2",
+    "luxon": "^3.0.1",
     "redis": "^4.2.0"
   }
 }
