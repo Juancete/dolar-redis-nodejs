@@ -27,14 +27,14 @@ class Parser {
 	parse = (body, result) => {
 		this.json = body //JSON.parse(body);
 		result.source = this.sourceName
-		result.value = getValue(this.json, this.jsonValue)
+		result.value = getValue(this.json, this.jsonValue).replace(",", ".")
 	}
 }
 class FuturosParser extends Parser {
   parse = (body, result) => {
     this.json = body[7] //JSON.parse(body);
 		result.source = this.sourceName
-		result.value = getValue(this.json, this.jsonValue)
+		result.value = getValue(this.json, this.jsonValue).replace(",", ".")
   }
 }
 class LaNacion extends Parser {
@@ -138,7 +138,7 @@ async function getBody(parser,type) {
 async function persist(value, type) {
 	try {
 		const largo = await client.lLen(type)
-		if (largo > 5) await client.rPop(type)
+		if (largo > 100) await client.rPop(type)
 		await client.lPush(type, JSON.stringify(value))
 		console.log("Valor grabado ", value)
 	} catch (error) {
