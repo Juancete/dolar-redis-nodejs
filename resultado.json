@@ -1,0 +1,110 @@
+[
+	{
+		"anterior": "131.24",
+		"contrato": "D\u00f3lar Julio 2022",
+		"venta": "131.35",
+		"compra": "131.21",
+		"variacion": "0,08%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "142.2",
+		"contrato": "D\u00f3lar Agosto 2022",
+		"venta": "142.75",
+		"compra": "141.5",
+		"variacion": "0,39%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "154.2",
+		"contrato": "D\u00f3lar Septiembre 2022",
+		"venta": "155.54",
+		"compra": "153",
+		"variacion": "0,87%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "165.7",
+		"contrato": "D\u00f3lar Octubre 2022",
+		"venta": "168.06",
+		"compra": "164",
+		"variacion": "1,42%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "177.4",
+		"contrato": "D\u00f3lar Noviembre 2022",
+		"venta": "178.09",
+		"compra": "176.3",
+		"variacion": "0,39%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "187.1",
+		"contrato": "D\u00f3lar Diciembre 2022",
+		"venta": "189.43",
+		"compra": "183",
+		"variacion": "1,25%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "199.5",
+		"contrato": "D\u00f3lar Enero 2023",
+		"venta": "-",
+		"compra": "-",
+		"variacion": "0,00%",
+		"class-variacion": "equal",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "208.5",
+		"contrato": "D\u00f3lar Febrero 2023",
+		"venta": "-",
+		"compra": "-",
+		"variacion": "0,00%",
+		"class-variacion": "equal",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "217.05",
+		"contrato": "D\u00f3lar Marzo 2023",
+		"venta": "-",
+		"compra": "-",
+		"variacion": "0,00%",
+		"class-variacion": "equal",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "227.45",
+		"contrato": "D\u00f3lar Abril 2023",
+		"venta": "-",
+		"compra": "-",
+		"variacion": "0,00%",
+		"class-variacion": "equal",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "230.5",
+		"contrato": "D\u00f3lar Mayo 2023",
+		"venta": "238.24",
+		"compra": "223",
+		"variacion": "3,36%",
+		"class-variacion": "up",
+		"variacion-nombre": "Variaci&oacute;n $"
+	},
+	{
+		"anterior": "241",
+		"contrato": "D\u00f3lar Junio 2023",
+		"venta": "-",
+		"compra": "236",
+		"variacion": "0,00%",
+		"class-variacion": "equal",
+		"variacion-nombre": "Variaci&oacute;n $"
+	}
+]

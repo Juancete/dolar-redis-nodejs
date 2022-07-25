@@ -34,7 +34,8 @@ class FuturosParser extends Parser {
   parse = (body, result) => {
     this.json = body[7] //JSON.parse(body);
 		result.source = this.sourceName
-		result.value = getValue(this.json, this.jsonValue).replace(",", ".")
+		const result = getValue(this.json, this.jsonValue).replace(",", ".")
+		result.value = result === "-"? undefined : result
   }
 }
 class LaNacion extends Parser {
