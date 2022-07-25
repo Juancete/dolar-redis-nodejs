@@ -7,6 +7,7 @@ client.on("error", (err) => {
 	console.log("Redis Client Error", err)
 	process.exit(1)
 })
+await client.connect();
 
 /*
  *	Dominio
@@ -39,6 +40,19 @@ class LaNacion extends Parser {
 		result.value = this.json.CasaCambioVentaValue.replace(",", ".")
 	}
 }
+
+const ambitoOficial = new Parser (
+  "https://mercados.ambito.com/dolar/oficial/variacion",
+  "Ambito Financiero",
+  "venta"
+)
+
+const ambitoInformal = new Parser (
+  "https://mercados.ambito.com/dolar/informal/variacion",
+  "Ambito Financiero",
+  "venta"
+)
+
 const blueLitics = new Parser(
 	"http://api.bluelytics.com.ar/v2/latest",
 	"BlueLytics",
@@ -56,8 +70,10 @@ const laNacion = new LaNacion(
 	"La Nación"
 )
 
-const updater = () => {
-	getBody(laNacion, new Rate())
+const updater = async () => {
+	await getBody(ambitoOficial,"dolar")
+  await getBody(ambitoInformal,"blue")
+  process.exit(0)
 }
 
 class Rate {
@@ -66,13 +82,13 @@ class Rate {
 		this.value = 0
 		this.source = ""
 	}
-	evaluate = async (anotherValue) => {
+	evaluate = async (anotherValue, type) => {
 		if (anotherValue.length == 0) {
 			console.log("First Persist")
-			await persist(this)
+			await persist(this, type)
 		} else if (JSON.parse(anotherValue).value != this.value) {
 			console.log("New Value to persist!")
-			await persist(this)
+			await persist(this, type)
 		} else {
 			console.log("Nothing to persist")
 		}
@@ -84,16 +100,17 @@ updater()
 /*
  *	Funciones de parseo URL
  */
-function getBody(parser, remoteRate) {
+async function getBody(parser,type) {
 	//   var parser = new parser();
+  const remoteRate = new Rate()
 	console.log("buscando de página " + parser.url)
-	axios
+	await axios
 		.get(parser.url)
-		.then((body) => {
+		.then(async (body) => {
 			remoteRate.date = DateTime.utc().toISO()
 			parser.parse(body.data, remoteRate)
 			console.log("Valor leido de", remoteRate.source, remoteRate.value)
-			readLastValue(remoteRate)
+			await readLastValue(remoteRate, type)
 		})
 		.catch((error) => {
 			console.log(error)
@@ -105,11 +122,11 @@ function getBody(parser, remoteRate) {
  *	Funciones Redis
  */
 
-async function persist(value) {
+async function persist(value, type) {
 	try {
-		const largo = await client.lLen("dolar")
-		if (largo > 5) await client.rPop("dolar")
-		await client.lPush("dolar", JSON.stringify(value))
+		const largo = await client.lLen(type)
+		if (largo > 5) await client.rPop(type)
+		await client.lPush(type, JSON.stringify(value))
 		console.log("Valor grabado ", value)
 	} catch (error) {
 		console.log(error)
@@ -117,12 +134,11 @@ async function persist(value) {
 	}
 }
 
-async function readLastValue(remoteRate) {
+async function readLastValue(remoteRate, type) {
 	try {
-		const messages = await client.lRange("dolar", 0, 0)
+		const messages = await client.lRange(type, 0, 0)
 		console.log("Valor leido de Redis ", messages)
-		await remoteRate.evaluate(messages)
-		process.exit(0)
+		await remoteRate.evaluate(messages,type)
 	} catch (error) {
 		console.log(error)
 		process.exit(1)
