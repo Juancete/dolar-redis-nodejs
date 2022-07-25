@@ -123,7 +123,7 @@ async function getBody(parser, type) {
 	await axios
 		.get(parser.url)
 		.then(async (body) => {
-			remoteRate.date = DateTime.now()
+			remoteRate.date = DateTime.now().toISO()
 			parser.parse(body.data, remoteRate)
 			if (remoteRate.value) {
 				console.log("Valor leido de", remoteRate.source, remoteRate.value)
