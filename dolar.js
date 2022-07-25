@@ -123,12 +123,12 @@ async function getBody(parser, type) {
 		.then(async (body) => {
 			remoteRate.date = DateTime.utc().toISO()
 			parser.parse(body.data, remoteRate)
-			if (parser.value) {
+			if (remoteRate.value) {
 				console.log("Valor leido de", remoteRate.source, remoteRate.value)
 				await readLastValue(remoteRate, type)
 			}
 			else
-				console.log("o hay cotización para ", remoteRate.source)
+				console.log("No hay cotización para ", remoteRate.source)
 		})
 		.catch((error) => {
 			console.log(error)
