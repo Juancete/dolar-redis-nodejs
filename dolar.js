@@ -7,7 +7,7 @@ client.on("error", (err) => {
 	console.log("Redis Client Error", err)
 	process.exit(1)
 })
-await client.connect();
+await client.connect()
 
 /*
  *	Dominio
@@ -31,12 +31,12 @@ class Parser {
 	}
 }
 class FuturosParser extends Parser {
-  parse = (body, result) => {
-    this.json = body[7] //JSON.parse(body);
+	parse = (body, result) => {
+		this.json = body[7] //JSON.parse(body);
 		result.source = this.sourceName
 		const result = getValue(this.json, this.jsonValue).replace(",", ".")
-		result.value = result === "-"? undefined : result
-  }
+		result.value = result === "-" ? undefined : result
+	}
 }
 class LaNacion extends Parser {
 	parse = (body, result) => {
@@ -48,22 +48,22 @@ class LaNacion extends Parser {
 	}
 }
 
-const ambitoOficial = new Parser (
-  "https://mercados.ambito.com/dolar/oficial/variacion",
-  "Ambito Financiero",
-  "venta"
+const ambitoOficial = new Parser(
+	"https://mercados.ambito.com/dolar/oficial/variacion",
+	"Ambito Financiero",
+	"venta"
 )
 
-const ambitoInformal = new Parser (
-  "https://mercados.ambito.com/dolar/informal/variacion",
-  "Ambito Financiero",
-  "venta"
+const ambitoInformal = new Parser(
+	"https://mercados.ambito.com/dolar/informal/variacion",
+	"Ambito Financiero",
+	"venta"
 )
 
-const ambitoFuturos = new FuturosParser (
-  "https://mercados.ambito.com//dolarfuturo/datos",
-  "Ambito Financiero",
-  "venta"
+const ambitoFuturos = new FuturosParser(
+	"https://mercados.ambito.com//dolarfuturo/datos",
+	"Ambito Financiero",
+	"venta"
 )
 
 const blueLitics = new Parser(
@@ -84,10 +84,10 @@ const laNacion = new LaNacion(
 )
 
 const updater = async () => {
-	await getBody(ambitoOficial,"dolar")
-  await getBody(ambitoInformal,"blue")
-  await getBody(ambitoFuturos,"rofex")
-  process.exit(0)
+	await getBody(ambitoOficial, "dolar")
+	await getBody(ambitoInformal, "blue")
+	await getBody(ambitoFuturos, "rofex")
+	process.exit(0)
 }
 
 class Rate {
@@ -114,17 +114,21 @@ updater()
 /*
  *	Funciones de parseo URL
  */
-async function getBody(parser,type) {
+async function getBody(parser, type) {
 	//   var parser = new parser();
-  const remoteRate = new Rate()
+	const remoteRate = new Rate()
 	console.log("buscando de página " + parser.url)
 	await axios
 		.get(parser.url)
 		.then(async (body) => {
 			remoteRate.date = DateTime.utc().toISO()
 			parser.parse(body.data, remoteRate)
-			console.log("Valor leido de", remoteRate.source, remoteRate.value)
-			await readLastValue(remoteRate, type)
+			if (parser.value) {
+				console.log("Valor leido de", remoteRate.source, remoteRate.value)
+				await readLastValue(remoteRate, type)
+			}
+			else
+				console.log("o hay cotización para ", remoteRate.source)
 		})
 		.catch((error) => {
 			console.log(error)
@@ -144,7 +148,7 @@ async function persist(value, type) {
 		console.log("Valor grabado ", value)
 	} catch (error) {
 		console.log(error)
-    process.exit(1)
+		process.exit(1)
 	}
 }
 
@@ -152,7 +156,7 @@ async function readLastValue(remoteRate, type) {
 	try {
 		const messages = await client.lRange(type, 0, 0)
 		console.log("Valor leido de Redis ", messages)
-		await remoteRate.evaluate(messages,type)
+		await remoteRate.evaluate(messages, type)
 	} catch (error) {
 		console.log(error)
 		process.exit(1)
