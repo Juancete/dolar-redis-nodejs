@@ -30,7 +30,13 @@ class Parser {
 		result.value = getValue(this.json, this.jsonValue)
 	}
 }
-
+class FuturosParser extends Parser {
+  parse = (body, result) => {
+    this.json = body[7] //JSON.parse(body);
+		result.source = this.sourceName
+		result.value = getValue(this.json, this.jsonValue)
+  }
+}
 class LaNacion extends Parser {
 	parse = (body, result) => {
 		const cuerpo = body.substring(19, body.length - 2)
@@ -49,6 +55,12 @@ const ambitoOficial = new Parser (
 
 const ambitoInformal = new Parser (
   "https://mercados.ambito.com/dolar/informal/variacion",
+  "Ambito Financiero",
+  "venta"
+)
+
+const ambitoFuturos = new FuturosParser (
+  "https://mercados.ambito.com//dolarfuturo/datos",
   "Ambito Financiero",
   "venta"
 )
@@ -73,6 +85,7 @@ const laNacion = new LaNacion(
 const updater = async () => {
 	await getBody(ambitoOficial,"dolar")
   await getBody(ambitoInformal,"blue")
+  await getBody(ambitoFuturos,"rofex")
   process.exit(0)
 }
 
