@@ -1,6 +1,8 @@
 import { createClient } from "redis"
-import { DateTime } from "luxon"
+import { DateTime , Settings} from "luxon"
 import axios from "axios"
+
+Settings.defaultLocale = "es-AR";
 
 const client = createClient()
 client.on("error", (err) => {
@@ -121,7 +123,7 @@ async function getBody(parser, type) {
 	await axios
 		.get(parser.url)
 		.then(async (body) => {
-			remoteRate.date = DateTime.utc().toISO()
+			remoteRate.date = DateTime.now()
 			parser.parse(body.data, remoteRate)
 			if (remoteRate.value) {
 				console.log("Valor leido de", remoteRate.source, remoteRate.value)
