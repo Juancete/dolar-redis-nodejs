@@ -51,7 +51,7 @@ class LaNacion extends Parser {
 }
 
 const ambitoOficial = new Parser(
-	"https://mercados.ambito.com/dolar/oficial/variacion",
+	"https://mercados.ambito.com/dolarnacion/variacion",
 	"Ambito Financiero",
 	"venta"
 )
